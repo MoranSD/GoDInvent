@@ -1,6 +1,6 @@
 using Gameplay.InventorySystem.Items;
+using Gameplay.FightSystem;
 using UnityEngine;
-using WeaponSystem;
 
 namespace Gameplay.InventorySystem.Data
 {

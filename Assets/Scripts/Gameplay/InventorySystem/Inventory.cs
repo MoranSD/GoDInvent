@@ -30,6 +30,13 @@ namespace Gameplay.InventorySystem
             }
         }
 
+        public void ResetToDefault()
+        {
+            for (int i = 0; i < config.startItems.Length; i++)
+            {
+                TryAddItem(config.startItems[i].itemConfig.CreateItem(), config.startItems[i].position);
+            }
+        }
         public void Move(Vector2Int from, Vector2Int to)
         {
             if (from == to) return;
@@ -40,11 +47,8 @@ namespace Gameplay.InventorySystem
 
             if (HasItem(to))
             {
-                if (TryAddItem(GetItem(from), to))
-                {
-                    _stacks.Remove(from);
+                if (TryAddItem(GetItem(from), to)) 
                     isItemMoved = true;
-                }
             }
             else
             {
@@ -54,6 +58,7 @@ namespace Gameplay.InventorySystem
 
             if (isItemMoved)
             {
+                _stacks.Remove(from);
                 _display.UpdateCell(from);
                 _display.UpdateCell(to);
             }
@@ -105,8 +110,29 @@ namespace Gameplay.InventorySystem
 
             return TryAddNewStack(item, new Vector2Int(-1, -1));
         }
+        public void Remove(Vector2Int position)
+        {
+            _stacks.Remove(position);
+            _display.UpdateCell(position);
+        }
         public bool HasItem(Vector2Int itemPosition) => _stacks.ContainsKey(itemPosition);
         public IItem GetItem(Vector2Int itemPosition) => _stacks[itemPosition].item;
+        public bool TryGetItemStack(System.Func<Stack,bool> func, out Stack item)
+        {
+            item = _stacks.Values.FirstOrDefault(func);
+            return item != null;
+        }
+        public void UpdateStack(Vector2Int position)
+        {
+            if (_stacks.ContainsKey(position) == false) return;
+
+            if (_stacks[position].item.count == 0)
+            {
+                _stacks.Remove(position);
+            }
+
+            _display.UpdateCell(position);
+        }
         private bool TryAddNewStack(IItem item, Vector2Int position)
         {
             if (IsCanAddNewStack() == false || HasItem(position))
@@ -114,7 +140,7 @@ namespace Gameplay.InventorySystem
 
             var stackPosition = (position.x == -1) ? GetFreePosition() : position;
 
-            var itemStack = new Stack(stackPosition, item);
+            var itemStack = new Stack(stackPosition, item, this);
             _stacks.Add(stackPosition, itemStack);
             _display.UpdateCell(stackPosition);
             return true;

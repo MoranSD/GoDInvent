@@ -1,4 +1,4 @@
-namespace WeaponSystem
+namespace Gameplay.FightSystem
 {
     public enum BulletType
     {

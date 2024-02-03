@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <itemName>k__BackingField: "\u0411\u0440\u043E\u043D\u0435\u0436\u0438\u043B\u0435\u0442"
   <id>k__BackingField: 0
-  <icon>k__BackingField: {fileID: 1078361414, guid: 99df94eea745c3f40bc2b31b01658683, type: 3}
+  <icon>k__BackingField: {fileID: -944783293, guid: 99df94eea745c3f40bc2b31b01658683, type: 3}
   <isStackable>k__BackingField: 0
   <maxCount>k__BackingField: 1
   <startCount>k__BackingField: 1

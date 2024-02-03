@@ -1,4 +1,4 @@
-using WeaponSystem;
+using Gameplay.FightSystem;
 
 namespace Gameplay.InventorySystem.Items
 {

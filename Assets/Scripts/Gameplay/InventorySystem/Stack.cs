@@ -8,11 +8,13 @@ namespace Gameplay.InventorySystem
         public int remainingSpace => item.maxCount - item.count;
         public Vector2Int position { get; private set; }
         public IItem item { get; private set; }
+        public Inventory inventory { get; private set; }
         
-        public Stack(Vector2Int position, IItem item)
+        public Stack(Vector2Int position, IItem item, Inventory inventory)
         {
             this.position = position;
             this.item = item;
+            this.inventory = inventory;
         }
         public bool TryAdd(IItem item)
         {
@@ -38,8 +40,9 @@ namespace Gameplay.InventorySystem
                 Debug.Log("Stack dont have enough count");
                 return false;
             }
-
+            
             item.count -= count;
+            inventory.UpdateStack(position);
             return true;
         }
     }

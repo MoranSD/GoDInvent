@@ -27,6 +27,7 @@ namespace Gameplay.InventorySystem.UI
         {
             CreateCells();
         }
+
         public void UpdateCell(Vector2Int cellPosition)
         {
             if (_cells.ContainsKey(cellPosition) == false) return;

@@ -16,3 +16,9 @@ MonoBehaviour:
   startItems:
   - itemConfig: {fileID: 11400000, guid: 952baabaea15bb14ea2ada7565f92daf, type: 2}
     position: {x: 5, y: 4}
+  - itemConfig: {fileID: 11400000, guid: 22f4a0a629e5cab4a87946d0fdae2d22, type: 2}
+    position: {x: 5, y: 3}
+  - itemConfig: {fileID: 11400000, guid: 69ff1036b1fa6bc43b46227e26f6f5c0, type: 2}
+    position: {x: 0, y: 4}
+  - itemConfig: {fileID: 11400000, guid: e4bff0819700bac45828e06a8069e2a0, type: 2}
+    position: {x: 1, y: 4}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a598fc60c6552f34aae5f49323ea52db, type: 3}
   m_Name: RifleBulletConfig
   m_EditorClassIdentifier: 
-  <itemName>k__BackingField: "\u0414\u0440\u043E\u0431\u043E\u0432\u0438\u043A"
+  <itemName>k__BackingField: "\u041F\u0443\u043B\u0438 \u0434\u043B\u044F \u0432\u0438\u043D\u0442\u043E\u0432\u043A\u0438"
   <id>k__BackingField: 0
-  <icon>k__BackingField: {fileID: -1172008723, guid: 99df94eea745c3f40bc2b31b01658683, type: 3}
+  <icon>k__BackingField: {fileID: 181958887, guid: 99df94eea745c3f40bc2b31b01658683, type: 3}
   <isStackable>k__BackingField: 1
   <maxCount>k__BackingField: 100
   <startCount>k__BackingField: 50

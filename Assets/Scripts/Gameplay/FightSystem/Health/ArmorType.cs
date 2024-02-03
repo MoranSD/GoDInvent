@@ -1,4 +1,4 @@
-namespace FightSystem.Health
+namespace Gameplay.FightSystem.Health
 {
     public enum ArmorType
     {

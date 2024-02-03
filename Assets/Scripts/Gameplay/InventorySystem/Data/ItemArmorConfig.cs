@@ -1,4 +1,4 @@
-using FightSystem.Health;
+using Gameplay.FightSystem.Health;
 using Gameplay.InventorySystem.Items;
 using UnityEngine;
 

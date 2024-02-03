@@ -6,6 +6,8 @@ namespace Gameplay.InventorySystem.UI
 {
     public class InteractableCell : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
     {
+        public static event System.Action<Vector2Int> onClickEvent;
+
         public Vector2Int position { get; private set; }
         public bool isDrag { get; private set; }
         public Inventory inventory { get; private set; }
@@ -30,7 +32,8 @@ namespace Gameplay.InventorySystem.UI
         }
         public void OnPointerClick(PointerEventData eventData)
         {
-
+            if (inventory.HasItem(position) == false) return;
+            onClickEvent?.Invoke(position);
         }
         public void OnBeginDrag(PointerEventData eventData)
         {
