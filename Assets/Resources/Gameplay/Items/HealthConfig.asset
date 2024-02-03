@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9fbd1a598f38ac44ab1a750ade68a07, type: 3}
+  m_Name: HealthConfig
+  m_EditorClassIdentifier: 
+  <itemName>k__BackingField: "\u0410\u043F\u0442\u0435\u0447\u043A\u0430"
+  <id>k__BackingField: 0
+  <icon>k__BackingField: {fileID: -2083025838, guid: 99df94eea745c3f40bc2b31b01658683, type: 3}
+  <isStackable>k__BackingField: 1
+  <maxCount>k__BackingField: 6
+  <startCount>k__BackingField: 2
+  <healthPoints>k__BackingField: 50

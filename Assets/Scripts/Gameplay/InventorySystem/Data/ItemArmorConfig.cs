@@ -1,18 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
+using FightSystem.Health;
+using Gameplay.InventorySystem.Items;
 using UnityEngine;
 
-public class ItemArmorConfig : MonoBehaviour
+namespace Gameplay.InventorySystem.Data
 {
-    // Start is called before the first frame update
-    void Start()
+    [CreateAssetMenu(menuName = "Game/Data/Items/Armor")]
+    public class ItemArmorConfig : ItemConfig
     {
-        
-    }
+        [field: SerializeField] public int armorPoints { get; private set; }
+        [field: SerializeField] public ArmorType armorType { get; private set; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public override IItem CreateItem()
+        {
+            var item = new ArmorItem();
+            item.armorPoints = armorPoints;
+            item.armorType = armorType;
+
+            InitBaseStats(item);
+            return item;
+        }
     }
 }
