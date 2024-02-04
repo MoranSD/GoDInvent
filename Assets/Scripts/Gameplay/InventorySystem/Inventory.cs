@@ -110,6 +110,7 @@ namespace Gameplay.InventorySystem
 
             return TryAddNewStack(item, new Vector2Int(-1, -1));
         }
+        public Stack GetStack(Vector2Int position) => _stacks[position];
         public void Remove(Vector2Int position)
         {
             _stacks.Remove(position);

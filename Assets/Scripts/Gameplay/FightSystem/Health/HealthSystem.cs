@@ -25,7 +25,7 @@ namespace Gameplay.FightSystem.Health
             if (health <= 0)
                 onDieEvent?.Invoke();
         }
-        public void ResetHealth()
+        public virtual void ResetHealth()
         {
             health = maxHealth;
             onChangedEvent?.Invoke();

@@ -22,3 +22,5 @@ MonoBehaviour:
     position: {x: 0, y: 4}
   - itemConfig: {fileID: 11400000, guid: e4bff0819700bac45828e06a8069e2a0, type: 2}
     position: {x: 1, y: 4}
+  - itemConfig: {fileID: 11400000, guid: a10890751ae2e1547a97a2a89aa4d0f4, type: 2}
+    position: {x: 3, y: 4}

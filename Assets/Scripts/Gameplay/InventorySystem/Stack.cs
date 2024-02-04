@@ -16,6 +16,13 @@ namespace Gameplay.InventorySystem
             this.item = item;
             this.inventory = inventory;
         }
+        public void AddToMax()
+        {
+            if (item.count >= item.maxCount) return;
+
+            item.count = item.maxCount;
+            inventory.UpdateStack(position);
+        }
         public bool TryAdd(IItem item)
         {
             if(item.isStackable == false)

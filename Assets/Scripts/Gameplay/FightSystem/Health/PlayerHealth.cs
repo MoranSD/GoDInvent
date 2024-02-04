@@ -16,20 +16,9 @@ namespace Gameplay.FightSystem.Health
 
             if (HasArmor(armorType))
             {
-                var armor = GetArmor(armorType) as ArmorItem;
-                if(armor.armorPoints >= damage)
-                {
-                    damage = 0;
-                    armor.armorPoints -= damage;
-                }
-                else
-                {
-                    damage -= armor.armorPoints;
-                    armor.armorPoints = 0;
-                }
-
-                if(armor.armorPoints <= 0)
-                    RemoveArmor(armorType);
+                var armor = GetArmor(armorType);
+                damage -= armor.armorPoints;
+                if (damage <= 0) return;
             }
 
             health -= damage;
@@ -44,6 +33,15 @@ namespace Gameplay.FightSystem.Health
 
             health = System.Math.Min(health + healthPoints, maxHealth);
             onChangedEvent?.Invoke();
+        }
+        public override void ResetHealth()
+        {
+            base.ResetHealth();
+
+            for (int i = 0; i < equippedArmors.Count; i++)
+            {
+                RemoveArmor(equippedArmors[i].armorType);
+            }
         }
         public bool HasArmor(ArmorType armorType) => equippedArmors.Any(x => x.armorType == armorType);
         public IArmor GetArmor(ArmorType armorType) => equippedArmors.First(x => x.armorType == armorType);

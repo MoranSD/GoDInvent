@@ -40,6 +40,7 @@ namespace Gameplay.FightSystem.Health.UI
         {
             var armorIcon = _icons.First(x => x.type == armor.armorType);
             armorIcon.image.color = Color.white;
+            armorIcon.image.sprite = armor.icon;
             armorIcon.count.text = armor.armorPoints.ToString();
         }
         private void Clear()

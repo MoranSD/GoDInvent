@@ -34,6 +34,8 @@ namespace Gameplay.FightSystem
         }
         public void Attack()
         {
+            if (healthSystem.health <= 0 || _enemyAttack.healthSystem.health <= 0) return;
+
             int shotsCount = _config.GetRequiredBulletsCount(_currentWeapon);
             var requiredBulletType = _config.GetRequiredBulletType(_currentWeapon);
 

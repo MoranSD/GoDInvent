@@ -18,6 +18,7 @@ namespace Infrastructure
         public override void InstallBindings()
         {
             InstallHealthes();
+            InstallExecutorFactory();
             InstallAttackSystems();
             InstallPrizeGiver();
             InstallEndGameHandler();
@@ -26,6 +27,10 @@ namespace Infrastructure
         {
             Container.Bind<PlayerHealth>().AsSingle().WithArguments(_playerHealthConfig);
             Container.Bind<EnemyHealth>().AsSingle().WithArguments(_playerHealthConfig);
+        }
+        private void InstallExecutorFactory()
+        {
+            Container.Bind<Gameplay.UI.Popups.ItemPopupExecutorFactory>().AsSingle().WithArguments(Container);
         }
         private void InstallAttackSystems()
         {

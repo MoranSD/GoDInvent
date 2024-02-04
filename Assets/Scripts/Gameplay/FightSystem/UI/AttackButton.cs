@@ -5,6 +5,7 @@ namespace Gameplay.FightSystem.UI
 {
     public class AttackButton : MonoBehaviour
     {
+        [SerializeField] private Gameplay.UI.Popups.ItemPopupMenuService _itemPopup;
         private PlayerAttackSystem _attackSystem;
 
         [Inject]
@@ -12,6 +13,11 @@ namespace Gameplay.FightSystem.UI
         {
             _attackSystem = attackSystem;
         }
-        public void Attack() => _attackSystem.Attack();
+        public void Attack()
+        {
+            if (_itemPopup.isMenuOpened) return;
+
+            _attackSystem.Attack();
+        }
     }
 }
