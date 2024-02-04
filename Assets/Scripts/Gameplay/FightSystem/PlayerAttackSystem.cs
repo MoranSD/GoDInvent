@@ -32,8 +32,6 @@ namespace Gameplay.FightSystem
             currentWeapon = type;
             onChangeWeaponEvent?.Invoke();
         }
-        public object GetData() => currentWeapon;
-        public void SetData(object data) => SetWeapon((WeaponType)data);
         public void Attack()
         {
             if (healthSystem.health <= 0 || _enemyAttack.healthSystem.health <= 0) return;

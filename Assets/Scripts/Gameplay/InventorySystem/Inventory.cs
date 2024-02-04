@@ -31,11 +31,14 @@ namespace Gameplay.InventorySystem
             {
                 IItem item;
                 InitItem(out item, inventoryData[i].itemType, inventoryData[i].itemAdditionalData);
+                item.count = inventoryData[i].count;
                 TryAddNewStack(item, new Vector2Int(inventoryData[i].xPosition, inventoryData[i].yPosition));
             }
         }
         public void ResetToDefault()
         {
+            _stacks.Clear();
+
             for (int i = 0; i < config.startItems.Length; i++)
             {
                 TryAddItem(config.startItems[i].itemConfig.CreateItem(), config.startItems[i].position);
@@ -148,6 +151,7 @@ namespace Gameplay.InventorySystem
                 inventoryData[itemCount].xPosition = keiPair.Key.x;
                 inventoryData[itemCount].yPosition = keiPair.Key.y;
                 inventoryData[itemCount].itemType = keiPair.Value.item.itemType;
+                inventoryData[itemCount].count = keiPair.Value.item.count;
 
                 switch (keiPair.Value.item.itemType)
                 {

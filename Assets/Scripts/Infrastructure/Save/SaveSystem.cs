@@ -52,9 +52,6 @@ namespace Infrastructure.Save
 
             if (_data.ContainsKey("PlayerHealth")) _playerHealth.SetData(_data["PlayerHealth"]);
             if (_data.ContainsKey("EnemyHealth")) _enemyHealth.SetData(_data["EnemyHealth"]);
-
-            if (_data.ContainsKey("PlayerAttack")) _playerAttack.SetData(_data["EnemyHealth"]);
-            else _playerAttack.SetWeapon(WeaponType.pistol);
         }
 
         public void Save()
@@ -64,13 +61,14 @@ namespace Infrastructure.Save
             _data.Add("Inventory", _inventory.GetData());
             _data.Add("PlayerHealth", _playerHealth.GetData());
             _data.Add("EnemyHealth", _enemyHealth.GetData());
-            _data.Add("PlayerAttack", _playerAttack.GetData());
 
             var b = new BinaryFormatter();
             using (FileStream stream = new FileStream(Application.persistentDataPath + "/SaveData.xml", FileMode.Create))
             {
                 b.Serialize(stream, _data);
             }
+
+            Debug.Log(Application.persistentDataPath + "/SaveData.xml");
         }
     }
 }

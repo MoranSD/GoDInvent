@@ -41,10 +41,8 @@ namespace Gameplay.FightSystem.Health
         }
         public void ResetArmor()
         {
-            for (int i = 0; i < equippedArmors.Count; i++)
-            {
-                RemoveArmor(equippedArmors[i].armorType);
-            }
+            equippedArmors.Clear();
+            onChangedEvent?.Invoke();
         }
         public bool HasArmor(ArmorType armorType) => equippedArmors.Any(x => x.armorType == armorType);
         public IArmor GetArmor(ArmorType armorType) => equippedArmors.First(x => x.armorType == armorType);
