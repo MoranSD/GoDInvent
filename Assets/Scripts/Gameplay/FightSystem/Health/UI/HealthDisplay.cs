@@ -22,6 +22,7 @@ namespace Gameplay.FightSystem.UI
         private void Start()
         {
             Health.HealthSystem.onChangedEvent += UpdateStats;
+            UpdateStats();
         }
         private void OnDestroy()
         {

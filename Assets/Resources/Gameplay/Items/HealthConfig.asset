@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HealthConfig
   m_EditorClassIdentifier: 
   <itemName>k__BackingField: "\u0410\u043F\u0442\u0435\u0447\u043A\u0430"
+  <itemType>k__BackingField: 2
   <id>k__BackingField: 0
   <icon>k__BackingField: {fileID: -2083025838, guid: 99df94eea745c3f40bc2b31b01658683, type: 3}
   <isStackable>k__BackingField: 1

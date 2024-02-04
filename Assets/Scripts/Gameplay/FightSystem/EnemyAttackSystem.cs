@@ -1,17 +1,15 @@
 using Gameplay.FightSystem.Health;
 using Gameplay.FightSystem.Data;
-using Zenject;
 
 namespace Gameplay.FightSystem
 {
-    public class EnemyAttackSystem : ILateDisposable
+    public class EnemyAttackSystem
     {
         public EnemyHealth healthSystem { get; private set; }
 
         private ArmorType _targetArmor;
 
         private EnemyAttackConfig _config;
-        private PlayerAttackSystem _playerAttack;
 
         public EnemyAttackSystem(EnemyAttackConfig config, EnemyHealth enemyHealth)
         {
@@ -19,22 +17,12 @@ namespace Gameplay.FightSystem
 
             _config = config;
         }
-        [Inject]
-        private void Initialize(PlayerAttackSystem playerAttack)
-        {
-            _playerAttack = playerAttack;
-            _playerAttack.onAttackEvent += OnAttack;
-        }
-        public void LateDispose()
-        {
-            _playerAttack.onAttackEvent -= OnAttack;
-        }
 
-        private void OnAttack()
+        public void OnAttack(PlayerAttackSystem playerAttack)
         {
             if (healthSystem.health <= 0) return;
 
-            _playerAttack.healthSystem.ApplyDamage(_config.damage, _targetArmor);
+            playerAttack.healthSystem.ApplyDamage(_config.damage, _targetArmor);
             UpdateArmorTarget();
         }
         private void UpdateArmorTarget()

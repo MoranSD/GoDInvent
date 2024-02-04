@@ -8,7 +8,12 @@ namespace Gameplay.FightSystem.Health
     {
         public List<IArmor> equippedArmors { get; private set; } = new();
 
-        public PlayerHealth (Data.HealthConfig config) : base(config) { }
+        InventorySystem.Data.ItemsDataHandler _itemsDataHandler;
+
+        public PlayerHealth (Data.HealthConfig config, InventorySystem.Data.ItemsDataHandler itemsDataHandler) : base(config) 
+        {
+            _itemsDataHandler = itemsDataHandler;
+        }
         public override void ApplyDamage(int damage, ArmorType armorType)
         {
             if (health <= 0) return;
@@ -34,10 +39,8 @@ namespace Gameplay.FightSystem.Health
             health = System.Math.Min(health + healthPoints, maxHealth);
             onChangedEvent?.Invoke();
         }
-        public override void ResetHealth()
+        public void ResetArmor()
         {
-            base.ResetHealth();
-
             for (int i = 0; i < equippedArmors.Count; i++)
             {
                 RemoveArmor(equippedArmors[i].armorType);
@@ -53,12 +56,45 @@ namespace Gameplay.FightSystem.Health
             equippedArmors.Add(armor);
             onChangedEvent?.Invoke();
         }
+        public override object GetData()
+        {
+            return new PlayerHealthData()
+            {
+                health = health,
+                equippedArmors = equippedArmors.Select(x=> x.armorType).ToList(),
+            };
+        }
+        public override void SetData(object data)
+        {
+            var healthData = (PlayerHealthData)data;
+
+            health = healthData.health;
+            for (int i = 0; i < healthData.equippedArmors.Count; i++)
+            {
+                var armor = _itemsDataHandler
+                    .CreateItem(
+                    x => 
+                    x is InventorySystem.Data.ItemArmorConfig armorConfig && 
+                    armorConfig.armorType == healthData.equippedArmors[i]);
+
+                SetArmor((IArmor)armor);
+            }
+
+            onChangedEvent?.Invoke();
+        }
         private void RemoveArmor(ArmorType armorType)
         {
             if (HasArmor(armorType) == false) return;
 
             equippedArmors.Remove(GetArmor(armorType));
             onChangedEvent?.Invoke();
+        }
+
+        [System.Serializable]
+        private struct PlayerHealthData
+        {
+            public int health;
+            public List<ArmorType> equippedArmors;
         }
     }
 }

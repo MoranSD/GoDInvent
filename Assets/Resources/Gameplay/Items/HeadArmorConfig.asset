@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: HeadArmorConfig
   m_EditorClassIdentifier: 
   <itemName>k__BackingField: "\u0428\u043B\u0435\u043C"
+  <itemType>k__BackingField: 1
   <id>k__BackingField: 0
   <icon>k__BackingField: {fileID: 1078361414, guid: 99df94eea745c3f40bc2b31b01658683, type: 3}
   <isStackable>k__BackingField: 0

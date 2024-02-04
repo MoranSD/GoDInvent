@@ -8,11 +8,11 @@ namespace Gameplay.FightSystem
 {
     public class PlayerAttackSystem
     {
-        public event Action onAttackEvent;
+        public event Action onChangeWeaponEvent;
 
         public PlayerHealth healthSystem { get; private set; }
+        public WeaponType currentWeapon { get; private set; } = WeaponType.pistol;
 
-        private WeaponType _currentWeapon;
         private ArmorType _targetArmor;
 
         private AttackConfig _config;
@@ -27,17 +27,19 @@ namespace Gameplay.FightSystem
             _enemyAttack = enemyAttack;
             _inventory = inventory;
         }
-
         public void SetWeapon(WeaponType type)
         {
-            _currentWeapon = type;
+            currentWeapon = type;
+            onChangeWeaponEvent?.Invoke();
         }
+        public object GetData() => currentWeapon;
+        public void SetData(object data) => SetWeapon((WeaponType)data);
         public void Attack()
         {
             if (healthSystem.health <= 0 || _enemyAttack.healthSystem.health <= 0) return;
 
-            int shotsCount = _config.GetRequiredBulletsCount(_currentWeapon);
-            var requiredBulletType = _config.GetRequiredBulletType(_currentWeapon);
+            int shotsCount = _config.GetRequiredBulletsCount(currentWeapon);
+            var requiredBulletType = _config.GetRequiredBulletType(currentWeapon);
 
             if (_inventory.TryGetItemStack(x => x.item is IBullet bullet && bullet.type == requiredBulletType && x.item.count >= shotsCount, out var bulletStack))
             {
@@ -48,7 +50,7 @@ namespace Gameplay.FightSystem
                 return;
             }
 
-            int damage = _config.GetDamage(_currentWeapon);
+            int damage = _config.GetDamage(currentWeapon);
             for (int i = 0; i < shotsCount; i++)
             {
                 bool lastAttack = _enemyAttack.healthSystem.health <= damage;
@@ -59,7 +61,7 @@ namespace Gameplay.FightSystem
                 if (lastAttack) return;
             }
 
-            onAttackEvent?.Invoke();
+            _enemyAttack.OnAttack(this);
         }
         private void UpdateArmorTarget()
         {

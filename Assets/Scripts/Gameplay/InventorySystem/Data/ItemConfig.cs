@@ -6,6 +6,7 @@ namespace Gameplay.InventorySystem.Data
     public abstract class ItemConfig : ScriptableObject
     {
         [field: SerializeField] public string itemName { get; protected set; }
+        [field: SerializeField] public Items.ItemType itemType { get; protected set; }
         [field: SerializeField] public int id { get; protected set; }
         [field: SerializeField] public Sprite icon { get; protected set; }
         [field: SerializeField] public bool isStackable { get; protected set; }
@@ -16,6 +17,7 @@ namespace Gameplay.InventorySystem.Data
         protected void InitBaseStats(Items.Item item)
         {
             item.name = itemName;
+            item.itemType = itemType;
             item.id = id;
             item.icon = icon;
             item.isStackable = isStackable;

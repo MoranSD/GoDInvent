@@ -14,6 +14,8 @@ namespace Gameplay.FightSystem.Health
             maxHealth = config.maxCount;
         }
 
+        public abstract object GetData();
+        public abstract void SetData(object data);
         public virtual void ApplyDamage(int damage, ArmorType armorType)
         {
             if (health <= 0) return;

@@ -10,13 +10,14 @@ namespace Infrastructure
     {
         [SerializeField] private InventoryConfig _inventoryConfig;
         [SerializeField] private InventoryDisplay _inventoryDisplay;
+        [SerializeField] private ItemsDataHandler _itemsDataHandler;
         public override void InstallBindings()
         {
             InstallInventory();
         }
         private void InstallInventory()
         {
-            Container.BindInterfacesAndSelfTo<Inventory>().AsSingle().WithArguments(_inventoryConfig, _inventoryDisplay);
+            Container.Bind<Inventory>().AsSingle().WithArguments(_inventoryConfig, _inventoryDisplay, _itemsDataHandler);
         }
     }
 }

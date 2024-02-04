@@ -4,6 +4,7 @@ using Gameplay.FightSystem;
 using Gameplay.Data;
 using UnityEngine;
 using Zenject;
+using Gameplay.InventorySystem.Data;
 
 namespace Infrastructure
 {
@@ -15,6 +16,7 @@ namespace Infrastructure
         [SerializeField] private HealthConfig _enemyHealthConfig;
         [SerializeField] private PrizeGiverConfig _prizeGiverConfig;
         [SerializeField] private Gameplay.EndGameHandler _endGameHandler;
+        [SerializeField] private ItemsDataHandler _itemsDataHandler;
         public override void InstallBindings()
         {
             InstallHealthes();
@@ -22,11 +24,12 @@ namespace Infrastructure
             InstallAttackSystems();
             InstallPrizeGiver();
             InstallEndGameHandler();
+            InstalSaves();
         }
         private void InstallHealthes()
         {
-            Container.Bind<PlayerHealth>().AsSingle().WithArguments(_playerHealthConfig);
-            Container.Bind<EnemyHealth>().AsSingle().WithArguments(_playerHealthConfig);
+            Container.Bind<PlayerHealth>().AsSingle().WithArguments(_playerHealthConfig, _itemsDataHandler);
+            Container.Bind<EnemyHealth>().AsSingle().WithArguments(_enemyHealthConfig);
         }
         private void InstallExecutorFactory()
         {
@@ -35,7 +38,7 @@ namespace Infrastructure
         private void InstallAttackSystems()
         {
             Container.Bind<PlayerAttackSystem>().AsSingle().WithArguments(_attackConfig);
-            Container.BindInterfacesAndSelfTo<EnemyAttackSystem>().AsSingle().WithArguments(_enemyAttackConfig);
+            Container.Bind<EnemyAttackSystem>().AsSingle().WithArguments(_enemyAttackConfig);
         }
         private void InstallEndGameHandler()
         {
@@ -44,6 +47,10 @@ namespace Infrastructure
         private void InstallPrizeGiver()
         {
             Container.Bind<Gameplay.PrizeGiver>().AsSingle().WithArguments(_prizeGiverConfig);
+        }
+        private void InstalSaves()
+        {
+            Container.BindInterfacesAndSelfTo<Save.SaveSystem>().AsSingle();
         }
     }
 }

@@ -15,12 +15,24 @@ namespace Gameplay.FightSystem.UI
         {
             _attackSystem = attackSystem;
         }
-
+        private void Awake()
+        {
+            _attackSystem.onChangeWeaponEvent += OnWeaponChanged;
+            OnWeaponChanged();
+        }
+        private void OnDestroy()
+        {
+            _attackSystem.onChangeWeaponEvent -= OnWeaponChanged;
+        }
         public void SetWeapon()
         {
             _attackSystem.SetWeapon(_weaponType);
         }
 
-        public void SetVisualSelected(bool state) => _selected.SetActive(state);
+        private void SetVisualSelected(bool state) => _selected.SetActive(state);
+        private void OnWeaponChanged()
+        {
+            SetVisualSelected(_attackSystem.currentWeapon == _weaponType);
+        }
     }
 }

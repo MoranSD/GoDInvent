@@ -8,12 +8,7 @@ namespace Infrastructure
         [SerializeField] private GameObject _uiInventoryCellPrefab;
         public override void InstallBindings()
         {
-            InstalSaves();
             InstallFactories();
-        }
-        private void InstalSaves()
-        {
-
         }
         private void InstallFactories()
         {

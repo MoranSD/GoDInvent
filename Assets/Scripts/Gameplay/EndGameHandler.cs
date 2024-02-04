@@ -1,5 +1,6 @@
 using Gameplay.FightSystem.Health;
 using Gameplay.InventorySystem;
+using Infrastructure.Save;
 using UnityEngine;
 using Zenject;
 
@@ -11,14 +12,16 @@ namespace Gameplay
         private EnemyHealth _enemyHealthSystem;
         private Inventory _inventory;
         private PrizeGiver _prizeGiver;
+        private ISaveSystem _saveSystem;
 
         [Inject]
-        private void Construct(PlayerHealth playerHealth, EnemyHealth enemyHealth, Inventory inventory, PrizeGiver prizeGiver)
+        private void Construct(PlayerHealth playerHealth, EnemyHealth enemyHealth, Inventory inventory, PrizeGiver prizeGiver, ISaveSystem saveSystem)
         {
             _playerHealthSystem = playerHealth;
             _enemyHealthSystem = enemyHealth;
             _inventory = inventory;
             _prizeGiver = prizeGiver;
+            _saveSystem = saveSystem;
         }
 
         private void Start()
@@ -46,7 +49,10 @@ namespace Gameplay
             else
             {
                 _inventory.ResetToDefault();
+                _playerHealthSystem.ResetArmor();
             }
+
+            _saveSystem.Save();
         }
     }
 }

@@ -6,30 +6,34 @@ using UnityEngine;
 
 namespace Gameplay.InventorySystem
 {
-    public class Inventory: Zenject.IInitializable
+    public class Inventory
     {
         public InventoryConfig config { get; private set; }
 
         private Dictionary<Vector2Int, Stack> _stacks;
 
         private UI.InventoryDisplay _display;
+        private ItemsDataHandler _itemsData;
 
-        public Inventory(InventoryConfig config, UI.InventoryDisplay display)
+        public Inventory(InventoryConfig config, UI.InventoryDisplay display, ItemsDataHandler itemsDataHandler)
         {
             _display = display;
             this.config = config;
+            _itemsData = itemsDataHandler;
 
             _stacks = new Dictionary<Vector2Int, Stack>();
         }
-
-        public void Initialize()
+        public void SetData(object data)
         {
-            for (int i = 0; i < config.startItems.Length; i++)
+            var inventoryData = (InventoryData[])data;
+
+            for (int i = 0; i < inventoryData.Length; i++)
             {
-                TryAddItem(config.startItems[i].itemConfig.CreateItem(), config.startItems[i].position);
+                IItem item;
+                InitItem(out item, inventoryData[i].itemType, inventoryData[i].itemAdditionalData);
+                TryAddNewStack(item, new Vector2Int(inventoryData[i].xPosition, inventoryData[i].yPosition));
             }
         }
-
         public void ResetToDefault()
         {
             for (int i = 0; i < config.startItems.Length; i++)
@@ -134,6 +138,66 @@ namespace Gameplay.InventorySystem
 
             _display.UpdateCell(position);
         }
+        public object GetData()
+        {
+            var inventoryData = new InventoryData[_stacks.Count];
+
+            int itemCount = 0;
+            foreach (var keiPair in _stacks)
+            {
+                inventoryData[itemCount].xPosition = keiPair.Key.x;
+                inventoryData[itemCount].yPosition = keiPair.Key.y;
+                inventoryData[itemCount].itemType = keiPair.Value.item.itemType;
+
+                switch (keiPair.Value.item.itemType)
+                {
+                    case ItemType.bullet:
+                        inventoryData[itemCount].itemAdditionalData = ((IBullet)keiPair.Value.item).type;
+                        break;
+                    case ItemType.armor:
+                        inventoryData[itemCount].itemAdditionalData = ((IArmor)keiPair.Value.item).armorType;
+                        break;
+                    case ItemType.health:
+                        inventoryData[itemCount].itemAdditionalData = ((IHealth)keiPair.Value.item).healthPoints;
+                        break;
+                    default:
+                        break;
+                }
+
+                inventoryData[itemCount].count = keiPair.Value.item.count;
+
+                itemCount++;
+            }
+
+            return inventoryData;
+        }
+        private void InitItem(out IItem item, ItemType itemType, object additionalData)
+        {
+            switch (itemType)
+            {
+                case ItemType.bullet:
+                    item = _itemsData.CreateItem(
+                        x =>
+                        x is ItemBulletConfig bulletConfig &&
+                        bulletConfig.type == (FightSystem.BulletType)additionalData);
+                    break;
+                case ItemType.armor:
+                    item = _itemsData.CreateItem(
+                        x =>
+                        x is ItemArmorConfig armorConfig &&
+                        armorConfig.armorType == (FightSystem.Health.ArmorType)additionalData);
+                    break;
+                case ItemType.health:
+                    item = _itemsData.CreateItem(
+                        x => x is ItemHealthConfig healthConfig);
+
+                    ((HealthItem)item).healthPoints = (int)additionalData;
+                    break;
+                default:
+                    item = null;
+                    break;
+            }
+        }
         private bool TryAddNewStack(IItem item, Vector2Int position)
         {
             if (IsCanAddNewStack() == false || HasItem(position))
@@ -172,6 +236,16 @@ namespace Gameplay.InventorySystem
             }
 
             return new Vector2Int(-1, -1);
+        }
+
+        [System.Serializable]
+        private struct InventoryData
+        {
+            public int xPosition;
+            public int yPosition;
+            public ItemType itemType;
+            public object itemAdditionalData;
+            public int count;
         }
     }
 }
